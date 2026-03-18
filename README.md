@@ -15,6 +15,10 @@
   <a href="https://angus07.github.io/"><img src="https://img.shields.io/badge/site-angus07.github.io-1f2937.svg" alt="Homepage"></a>
 </p>
 
+<p align="center">
+  <a href="./docs/assets/demo.mp4"><strong>Watch the product demo</strong></a>
+</p>
+
 ## Overview
 
 Nautil is an **agent control framework** for problems that become hard when planning, execution, state, and failure handling start contaminating one another.
@@ -35,24 +39,26 @@ This repository contains:
 
 ## Demo
 
-This section is ready for a short product demo once you record it.
+**Watch the current demo:** [docs/assets/demo.mp4](./docs/assets/demo.mp4)
 
-For the best GitHub presentation, I recommend:
-
-- A **6-15 second GIF** at the top of the README for instant visual traction
-- A **longer MP4 walkthrough** linked from the GIF caption or from Releases
-
-Planned placement:
+The repository now includes a recorded walkthrough here:
 
 ```text
-docs/assets/nautil-demo.gif
-docs/assets/nautil-demo.mp4
+docs/assets/demo.mp4
 ```
 
-Once those files exist, you can drop this block near the top of the README:
+This is enough to make the project feel real and explorable.
 
-```md
-[![Nautil demo](docs/assets/nautil-demo.gif)](docs/assets/nautil-demo.mp4)
+If you want the README to become even more eye-catching later, the next upgrade is simple:
+
+- Keep this MP4 as the full demo
+- Add a short **GIF teaser** near the top for instant visual traction
+
+Recommended future placement:
+
+```text
+docs/assets/demo.gif
+docs/assets/demo.mp4
 ```
 
 ## Links
