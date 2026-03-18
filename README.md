@@ -62,26 +62,54 @@ Once those files exist, you can drop this block near the top of the README:
 
 ## Why Nautil
 
-### 1. Hierarchically recursive control
+### 1. The structure is easy to see and understand
 
-Complex work is represented as a **task tree**. Each node owns a local goal, local context, local execution path, local verification, and a path for escalation.
+Nautil makes agent work **visually legible**.
 
-That means the same control logic is reused from the root to the leaves, while only the scope of work changes.
+Instead of one opaque loop, the problem appears as a **clear task tree** that feels closer to a mind map:
 
-### 2. Dependency-first decomposition
+- You can see how the problem is decomposed
+- You can see what each node is doing
+- You can see which branches are complete, blocked, or escalating
+- You can inspect the reasoning surface of a node without losing the whole structure
 
-Nautil does not treat decomposition as generic splitting.
+That makes the system easier to trust, easier to debug, and easier to use on problems that would otherwise become unreadable.
 
-It identifies **independent prerequisite dependencies**, delegates them downward, and then lets the current node continue its own work after those dependencies return.
+### 2. Human-AI collaboration is natural
 
-### 3. Clear failure semantics
+Nautil is designed for **human-in-the-loop problem solving**, not just autonomous execution.
 
-Nautil distinguishes between:
+The product flow makes collaboration straightforward:
 
-- **Node-level verification:** a node checks its own result before submitting upward
-- **Escalation:** unresolved failure is handed to the parent layer for reinterpretation, restructuring, or further propagation
+- Review the draft structure before execution
+- Approve or reject decomposition decisions
+- Pause execution at any time
+- Inspect a node when something looks wrong
+- Give feedback to a specific node
+- Re-run a node from that point with updated guidance
+- Let the agent handle local work while the human steers higher-level structure
 
-This makes the tree easier to reason about than systems that blur local retry, planning, and higher-level intervention into one loop.
+This is where the task tree matters as a product, not just as an algorithm. **It gives human judgment a clean place to enter the loop.**
+
+### 3. It works especially well on problems with clear dependency structure
+
+Nautil is strongest when a problem can be expressed as **independent prerequisite tasks plus later integration**.
+
+That makes it a good fit for multi-step work where visibility, intervention, and structured execution matter more than one-shot generation.
+
+## Good Fit Examples
+
+### 1. Personal life guidance with structured exploration
+
+Example: **"How can I find a romantic partner who is truly a good fit for me?"**
+
+### 2. Time-sensitive judgment and decision support
+
+Example: **"Given recent market conditions, is gold still worth investing in now?"**
+
+### 3. Researching and operationalizing a new technology
+
+Example: **"How can I use Claude Code efficiently in real development work?"**
 
 ## Runtime Primitives
 
