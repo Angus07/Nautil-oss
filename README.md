@@ -16,7 +16,11 @@
 </p>
 
 <p align="center">
-  <a href="./docs/assets/demo.mp4"><strong>Watch the product demo</strong></a>
+  <a href="./docs/assets/demo.mp4"><img src="./docs/assets/demo.gif" alt="Nautil demo"></a>
+</p>
+
+<p align="center">
+  <a href="./docs/assets/demo.mp4"><strong>Watch the full demo</strong></a>
 </p>
 
 ## Overview
@@ -39,27 +43,7 @@ This repository contains:
 
 ## Demo
 
-**Watch the current demo:** [docs/assets/demo.mp4](./docs/assets/demo.mp4)
-
-The repository now includes a recorded walkthrough here:
-
-```text
-docs/assets/demo.mp4
-```
-
-This is enough to make the project feel real and explorable.
-
-If you want the README to become even more eye-catching later, the next upgrade is simple:
-
-- Keep this MP4 as the full demo
-- Add a short **GIF teaser** near the top for instant visual traction
-
-Recommended future placement:
-
-```text
-docs/assets/demo.gif
-docs/assets/demo.mp4
-```
+Click the preview above, or open the full walkthrough directly: [demo.mp4](./docs/assets/demo.mp4)
 
 ## Links
 
