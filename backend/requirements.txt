@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+websockets
+openai
+pydantic
+python-dotenv
+httpx
+readability-lxml

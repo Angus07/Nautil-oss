@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  searxng:
+    image: searxng/searxng:latest
+    container_name: nautil-searxng
+    restart: unless-stopped
+    ports:
+      - "8888:8080"
+    volumes:
+      - ./searxng/settings.yml:/etc/searxng/settings.yml:ro
+      - searxng-data:/etc/searxng
+    environment:
+      - SEARXNG_BASE_URL=http://localhost:8888/
+
+  redis:
+    image: redis:7-alpine
+    container_name: nautil-redis
+    restart: unless-stopped
+    command: redis-server --save "" --appendonly no
+    tmpfs:
+      - /data
+
+volumes:
+  searxng-data:
