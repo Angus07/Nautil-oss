@@ -1,74 +1,145 @@
 # Nautil
 
-Nautil is a **hierarchically recursive agent framework** that structures complex problem solving as a **task tree** of local solvers.
+<p align="center">
+  <strong>A hierarchically recursive agent framework for complex problem solving.</strong>
+</p>
+
+<p align="center">
+  Nautil structures complex work as a task tree of local solvers.
+  Each node can decompose, execute, compose, verify, and escalate within a single recursive control loop.
+</p>
+
+<p align="center">
+  <a href="https://github.com/Angus07/Nautil-oss/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-0f766e.svg" alt="MIT License"></a>
+  <a href="https://angus07.github.io/writing/nautil-hierarchically-recursive-agent-framework/"><img src="https://img.shields.io/badge/blog-core%20write--up-b7791f.svg" alt="Core write-up"></a>
+  <a href="https://angus07.github.io/"><img src="https://img.shields.io/badge/site-angus07.github.io-1f2937.svg" alt="Homepage"></a>
+</p>
+
+## Overview
+
+Nautil is an **agent control framework** for problems that become hard when planning, execution, state, and failure handling start contaminating one another.
+
+The core idea is simple:
+
+- Represent the problem as a **task tree**
+- Treat each node as a **local solver**
+- Decompose only into **independent prerequisite tasks**
+- Resume the parent once those dependencies return
+- Let each node **verify its own result**
+- **Escalate** unresolved failure upward to the layer that can restructure the work
 
 This repository contains:
 
-- A **FastAPI backend** that orchestrates node lifecycles (decompose → execute/compose → optional verify → escalate/retry)
-- A **React + Vite frontend** that visualizes the task tree, node status, and real-time node logs
+- A **FastAPI backend** that orchestrates node lifecycles and tool execution
+- A **React + Vite frontend** that visualizes the task tree, node state, and real-time node logs
+
+## Demo
+
+This section is ready for a short product demo once you record it.
+
+For the best GitHub presentation, I recommend:
+
+- A **6-15 second GIF** at the top of the README for instant visual traction
+- A **longer MP4 walkthrough** linked from the GIF caption or from Releases
+
+Planned placement:
+
+```text
+docs/assets/nautil-demo.gif
+docs/assets/nautil-demo.mp4
+```
+
+Once those files exist, you can drop this block near the top of the README:
+
+```md
+[![Nautil demo](docs/assets/nautil-demo.gif)](docs/assets/nautil-demo.mp4)
+```
 
 ## Links
 
-- Blog (core write-up): `https://angus07.github.io/writing/nautil-hierarchically-recursive-agent-framework/`
-- Homepage: `https://angus07.github.io/`
+- **Core write-up:** [Nautil: A Hierarchically Recursive Agent Framework for Complex Problem Solving](https://angus07.github.io/writing/nautil-hierarchically-recursive-agent-framework/)
+- **Personal site:** [angus07.github.io](https://angus07.github.io/)
 
-## What makes Nautil different
+## Why Nautil
 
-### Hierarchically recursive control (task tree)
+### 1. Hierarchically recursive control
 
-Complex work is represented as a **tree**. Each node is a local solver with its own instruction, context, and result. When a node is not atomic, it **decomposes** into independent child tasks that can run in parallel.
+Complex work is represented as a **task tree**. Each node owns a local goal, local context, local execution path, local verification, and a path for escalation.
 
-### Five primitives (implementation-aligned)
+That means the same control logic is reused from the root to the leaves, while only the scope of work changes.
 
-At runtime, nodes follow a unified loop:
+### 2. Dependency-first decomposition
 
-- **DECOMPOSE**: create independent sub-tasks (children)
+Nautil does not treat decomposition as generic splitting.
+
+It identifies **independent prerequisite dependencies**, delegates them downward, and then lets the current node continue its own work after those dependencies return.
+
+### 3. Clear failure semantics
+
+Nautil distinguishes between:
+
+- **Node-level verification:** a node checks its own result before submitting upward
+- **Escalation:** unresolved failure is handed to the parent layer for reinterpretation, restructuring, or further propagation
+
+This makes the tree easier to reason about than systems that blur local retry, planning, and higher-level intervention into one loop.
+
+## Runtime Primitives
+
+At runtime, Nautil revolves around five primitives:
+
+- **DECOMPOSE**: identify independent prerequisite tasks
 - **EXECUTE**: solve an atomic task directly
-- **COMPOSE**: integrate child results to finish the parent task
-- **VERIFY** (optional): verify result quality (can be disabled for faster demos)
-- **ESCALATE**: bubble failure upward (parent may restructure or partially deliver)
+- **COMPOSE**: continue the current node after dependencies return
+- **VERIFY**: check the current node's own result
+- **ESCALATE**: hand unresolved failure upward
 
-### Key design principle (important)
+## Product Experience
 
-Each node must **focus on solving its own current task**. The parent/ancestor chain is provided only as background context — **do not get pulled off-track by upstream goals**.
+The current UI is built around making the solving process inspectable:
 
-## Demo UX overview
+- Submit a problem from the top bar
+- Enter **draft planning** before execution
+- Review the generated structure
+- Approve execution when the tree looks correct
+- Inspect any node for:
+  - instruction
+  - delta state
+  - tool calls
+  - tool results
+  - errors
+  - timeline events
 
-- Submit a problem in the top bar
-- The system enters **draft planning** (decomposition only) and pauses leaf nodes for review
-- Click **Approve** to enter execution phase
-- Click any node to inspect:
-  - **Instruction**
-  - **Delta State (ΔState)** (e.g. verification feedback on retry)
-  - **Execution timeline** (tool calls / tool results / errors)
-
-## Repo layout
+## Repository Layout
 
 ```text
-backend/      FastAPI backend (engine + tools)
-frontend/     React + Vite frontend (graph UI)
-.env.example  environment variable template (DO NOT commit .env)
-LICENSE       MIT License
+backend/                    FastAPI backend
+backend/core/               Engine, node lifecycle, structural logic, tools
+backend/llm/                Provider abstraction
+frontend/                   React + Vite UI
+searxng/                    Local search configuration
+docker-compose.searxng.yml  Optional local SearXNG deployment
+.env.example                Environment variable template
+LICENSE                     MIT License
 ```
 
-## Quickstart (local development)
+## Quickstart
 
-### 1) Requirements
+### Requirements
 
-- Node.js 20+
 - Python 3.10+
+- Node.js 20+
 
-### 2) Configure environment
+### 1. Configure environment
 
-Create your local `.env` from the template:
+Create your local environment file from the template:
 
 ```bash
 cp .env.example .env
 ```
 
-Fill in keys in `.env` as needed (never commit `.env`).
+Fill in the keys you need locally. Do not commit `.env`.
 
-### 3) Backend
+### 2. Run the backend
 
 ```bash
 python3 -m venv .venv
@@ -77,7 +148,7 @@ pip install -r backend/requirements.txt
 python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8000
 ```
 
-### 4) Frontend
+### 3. Run the frontend
 
 ```bash
 cd frontend
@@ -85,33 +156,35 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Configuration knobs (UI → backend)
+## Session Controls
 
-The UI can submit these parameters per session:
+The UI can send these controls to the backend per session:
 
-- **Verify mode**: verify each node result (slower, higher quality) vs fast mode (skip verification)
-- **Max depth**: max decomposition depth
-- **Max concurrency**: max concurrent node processing
-- **Max children**: max children created in a single decompose
+- **Verify mode**
+- **Max depth**
+- **Max concurrency**
+- **Max children**
 
-## Optional: Search engine for `web_search`
+These let you trade off quality, speed, and exploration breadth.
 
-If you don't set `BRAVE_API_KEY`, `web_search` can fall back to a local SearXNG instance.
+## Optional Search Setup
+
+If `BRAVE_API_KEY` is not configured, `web_search` can fall back to a local SearXNG instance:
 
 ```bash
 docker compose -f docker-compose.searxng.yml up -d
 ```
 
-Set `SEARXNG_URL` in `.env` to match your instance (see `.env.example`).
+Then set `SEARXNG_URL` in `.env` to match your local instance.
 
-## Security / secrets
+## Security
 
-- **Never commit** `.env`.
-- API keys must be provided via environment variables.
-- If you find any leaked secrets, remove them immediately and rotate credentials.
+- Never commit `.env`
+- Provide API keys through environment variables
+- Rotate credentials immediately if anything sensitive is exposed
 
 ## License
 
-MIT — see `LICENSE`.
+Released under the [MIT License](LICENSE).
